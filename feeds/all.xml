@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Made by DP Studios: all pins</title>
+  <link>https://www.etsy.com/shop/MadebyDPStudiosUS</link>
+  <atom:link href="https://madebydpstudios.github.io/dpstudios-pins/feeds/all.xml" rel="self" type="application/rss+xml"/>
+  <description>Approved pins from Made by DP Studios</description>
+  <language>en-us</language>
+  <lastBuildDate>Thu, 08 Oct 2026 13:29:15 +0000</lastBuildDate>
+
+</channel>
+</rss>
