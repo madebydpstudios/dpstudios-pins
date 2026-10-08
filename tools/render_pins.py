@@ -4,6 +4,7 @@ Usage: python tools/render_pins.py specs.json out_dir
 Each spec: {id, eyebrow, headline, sub, card_title, tiles:[[label,value],[label,value]],
             rows:[[name, pill_text, pill_color]], seal, badges:[...], price, compare}
 pill_color: g (green) | y (gold) | r (red) | x (gray)
+Optional: "theme": "dark" (default, navy brand) or "light" (cream, for A/B tests)
 """
 import html, json, pathlib, sys
 from playwright.sync_api import sync_playwright
@@ -42,6 +43,13 @@ h1{margin-top:14px;font:800 54px/1.08 'Inter Display',Inter;letter-spacing:-.015
 .price{font:800 40px Inter}.price s{font:500 24px Inter;color:#9AA7C2;margin-left:10px}
 .btn{background:#F5A623;color:#1B1300;font:800 24px Inter;padding:16px 28px;border-radius:12px}
 .wmk{background:#0B1630;padding:10px 60px;text-align:right;font:500 16px Inter;color:#8FA0C2;position:relative}
+/* light theme variant for A/B tests: {"theme":"light"} */
+body.light{background:linear-gradient(170deg,#FAF6EE 0%,#F3EBDD 100%);color:#1F3864}
+body.light .wm{color:#1F3864}body.light .mk i:first-child{background:#1F3864}
+body.light .eb{color:#1E9F84}body.light .sub{color:#4A5672}
+body.light .badge{background:#fff;border-color:#E4DACB;color:#1F3864}
+body.light .bar{background:#1F3864;color:#fff}body.light .g1{background:radial-gradient(circle,rgba(47,191,159,.18),transparent 65%)}
+body.light .g2{background:radial-gradient(circle,rgba(245,166,35,.18),transparent 65%)}
 """
 
 def page(s):
@@ -49,7 +57,7 @@ def page(s):
     rows = "".join(f'<div class="row"><span>{e(n)}</span><span class="pill {c}">{e(p)}</span></div>' for n, p, c in s["rows"])
     badges = "".join(f'<span class="badge">{e(b)}</span>' for b in s["badges"])
     comp = f'<s>{e(s["compare"])}</s>' if s.get("compare") else ""
-    return f"""<!doctype html><html><head><style>{CSS}</style></head><body><div class="g1"></div><div class="g2"></div>
+    return f"""<!doctype html><html><head><style>{CSS}</style></head><body class="{e(s.get('theme','dark'))}"><div class="g1"></div><div class="g2"></div>
 <div class="in"><div class="logo"><div class="mk"><i></i><i></i><i></i><i></i></div><div class="wm">Made by <b>DP</b> Studios</div></div>
 <div class="eb">{e(s['eyebrow'])}</div><h1>{e(s['headline'])}</h1><div class="sub">{e(s['sub'])}</div>
 <div class="card"><div class="seal">{s['seal']}</div><div class="ch">{e(s['card_title'])}</div><div class="cb">{('<div class="tiles">'+tiles+'</div>') if tiles else ''}{rows}</div></div>
